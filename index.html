@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Archetype Personality Test</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: calc(100% - 40px);
+      padding: 20px;
+      text-align: center;
+      background: #7493b6;
+      color: white;
+    }
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: white;
+      margin: 30px 0;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .hidden {
+      display: none;
+    }
+    .progress-bar {
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress {
+      height: 100%;
+      background: #4a90e2;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    /*@media (prefers-color-scheme: light) {
+      body {
+        background: #f0f2f5;
+        color: #333;
+      }
+      header {
+        background: #7493b6;
+        color: white;
+      }
+      .container {
+        background: white;
+      }
+    }*/
+    /*@media (prefers-color-scheme: dark) {*/
+      body {
+        background: #222;
+        color: #eee;
+      }
+      header {
+        background: #333;
+      }
+      .container {
+        background: #333;
+        color: #eee;
+      }
+      .progress-bar {
+        background: #444;
+      }
+      .progress {
+        background: #4a90e2;
+      }
+    /*}*/
+    /* Likert scale styling */
+    .likert {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 15px 0;
+    }
+    .likert label {
+      margin: 0 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .likert input[type="radio"] {
+      display: none;
+    }
+    /* Define circle sizes: the further from neutral, the larger */
+    .circle {
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      display: inline-block;
+      transition: all 0.2s ease;
+      line-height: 0;
+    }
+    /* Sizes for options (index 0 = Strongly Agree, 1 = Agree, 2 = Slightly Agree,
+       3 = Neutral, 4 = Slightly Disagree, 5 = Disagree, 6 = Strongly Disagree) */
+    .option-0 .circle,
+    .option-6 .circle { width: 32px; height: 32px; }
+    .option-1 .circle,
+    .option-5 .circle { width: 28px; height: 28px; }
+    .option-2 .circle,
+    .option-4 .circle { width: 24px; height: 24px; }
+    .option-3 .circle { width: 20px; height: 20px; }
+    
+    /* Default circle background (unselected) */
+    .circle {
+      background: transparent;
+    }
+    /* Colors for selected states:
+       - Positive (indexes 0-2): green 
+       - Neutral (index 3): grey 
+       - Negative (indexes 4-6): muted purple (#a17acc) */
+    .option-0 input[type="radio"] + .circle,
+    .option-1 input[type="radio"] + .circle,
+    .option-2 input[type="radio"] + .circle {
+      border-color: #549756;
+    }
+    .option-0 input[type="radio"]:checked + .circle,
+    .option-1 input[type="radio"]:checked + .circle,
+    .option-2 input[type="radio"]:checked + .circle {
+      background: #4caf50; /* green */
+      border-color: #4caf50;
+    }
+    .option-3 input[type="radio"]:checked + .circle {
+      background: #999; /* grey */
+      border-color: #999;
+    }
+    .option-4 input[type="radio"] + .circle,
+    .option-5 input[type="radio"] + .circle,
+    .option-6 input[type="radio"] + .circle {
+      border-color: #7a688d;
+    }
+    .option-4 input[type="radio"]:checked + .circle,
+    .option-5 input[type="radio"]:checked + .circle,
+    .option-6 input[type="radio"]:checked + .circle {
+      background: #a17acc; /* muted purple */
+      border-color: #a17acc;
+    }
+    .lab {
+        margin: 0 20px;
+    }
+    .g {
+        color: #549756
+    }
+    .p {
+        color: #7a688d
+    }
+    /* Question block styling */
+    .question-block {
+      margin-bottom: 30px;
+    }
+    .question-text {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    /* Navigation buttons */
+    .btn {
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #357ab8;
+    }
+    /* Result styling */
+    .result {
+      font-size: 1.2em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Discover Your Archetype</h1>
+    <p>Answer a series of subtle questions to reveal your personality archetype.</p>
+  </header>
+  
+  <!-- Welcome Page -->
+  <div class="container" id="start-container">
+    <p>Welcome to the Archetype Personality Test. You will be asked over 50 subtle questions. Each page displays 5 questions. Choose one of the 7 options for each question, where the circles represent your level of agreement—from strongly disagree to strongly agree. Click “Start” when you’re ready.</p>
+    <button class="btn" id="start-btn">Start</button>
+  </div>
+  
+  <!-- Quiz Container -->
+  <div class="container hidden" id="quiz-container">
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <form id="quiz-form">
+      <!-- Questions will be injected here dynamically -->
+    </form>
+    <button class="btn" id="next-btn">Next</button>
+  </div>
+  
+  <!-- Result Container -->
+  <div class="container hidden" id="result-container">
+    <h2>Your Archetype</h2>
+    <div class="result" id="result"></div>
+    <button class="btn" id="restart-btn">Restart</button>
+  </div>
+  
+  <script>
+    /***** Data Structures *****/
+    // Define 50+ questions. Each question includes a "contributions" object,
+    // mapping one or more dimensions to weight factors.
+    let questions = [
+        { text: "I prefer to plan my actions in advance rather than leaving things to chance.", contributions: { purple: 1, orange: 0.4 } },
+        { text: "I feel comfortable sharing my personal thoughts with close friends.", contributions: { red: 0.4, blue: 0.3 } },
+        { text: "I often reflect on my experiences to guide my future decisions.", contributions: { red: -0.3 } },
+        { text: "I believe that personal growth comes from overcoming challenges.", contributions: {  } },
+        { text: "I value fairness and often treat others with respect, even if I believe they don't deserve it.", contributions: { blue: 1 } },
+        { text: "I tend to be organized in both my personal and professional life.", contributions: { purple: 1, red: -0.4 } },
+        { text: "I enjoy exploring new ideas even if they challenge my beliefs.", contributions: { yellow: 1, orange: 0.3 } },
+        { text: "I am driven by a strong desire to achieve my long-term goals.", contributions: { purple: 0.7, red: 0.3 } },
+        { text: "I find that taking time to understand different perspectives enriches my life.", contributions: { yellow: 0.467 } },
+        { text: "I am confident in my ability to overcome unexpected obstacles.", contributions: { red: 0.6, purple: -0.05 } },
+        { text: "I often make jokes when under duress.", contributions: { green: 1 } },
+        { text: "I prefer to work collaboratively rather than independently.", contributions: { green: 0.5, blue: 0.5, red: 0.1, purple: 0.1 } },
+        { text: "I believe that moral integrity is more important than personal gain.", contributions: { evil: -0.5 } },
+        { text: "I will change my opinion when presented with new evidence that suggests a conclusion contradictory to my previous opinion.", contributions: { maturity: 0.3 } },
+        { text: "I often prioritize long-term benefits over short-term rewards.", contributions: { purple: 0.5, red: -0.5 } },
+        { text: "I feel responsible for contributing positively to my community.", contributions: { purple: 0.6, blue: 0.4 } },
+        { text: "I trust my intuition when making important decisions.", contributions: { green: 1, orange: -0.1 } },
+        { text: "I value creativity and innovation in solving problems.", contributions: { yellow: 1 } },
+        { text: "I like messing with people.", contributions: { green: 1 } },
+        { text: "I believe that honest self-reflection is essential for personal improvement.", contributions: { blue: 0.5 } },
+        { text: "I am motivated by a deep sense of purpose in life.", contributions: { blue: 0.3, purple: 0.2, orange: -0.2 } },
+        { text: "I strive to maintain balance between my personal and professional commitments.", contributions: {} },
+        { text: "I tend to approach conflicts with a calm and rational mindset.", contributions: { purple: 0.5, maturity: 0.3 } },
+        { text: "I appreciate the importance of tradition and stability in my life.", contributions: { red: -0.2 } },
+        { text: "I feel that empathy is crucial when understanding others’ experiences.", contributions: { blue: 0.3, orange: -0.3 } },
+        { text: "I am enthusiastic about exploring new opportunities, even if they are uncertain.", contributions: { yellow: 1 } },
+        { text: "I often find that my actions are guided by a strong internal moral compass.", contributions: { evil: -0.2 } },
+        { text: "I believe that adapting to change is a key part of personal success.", contributions: { green: 0.3, purple: 0.2 } },
+        { text: "I tend to set high standards for myself in every area of my life.", contributions: { red: 0.5, purple: 0.5 } },
+        { text: "I value honesty even when the truth might be difficult to share and/or detriment myself.", contributions: { blue: 0.6, evil: -0.2 } },
+        { text: "I enjoy engaging in thoughtful discussions about life’s bigger questions.", contributions: { yellow: 1, orange: 1 } },
+        { text: "I am persistent in pursuing my goals, even in the face of setbacks.", contributions: { red: 1, orange: 0.4 } },
+        { text: "I believe that self-discipline is fundamental to achieving personal ambitions.", contributions: {  } },
+        { text: "I am comfortable with ambiguity and uncertain situations.", contributions: { purple: -0.4 } },
+        { text: "I feel that success is measured more by personal growth than by external rewards.", contributions: { blue: 0.5, orange: 0.3, red: -0.2 } },
+        { text: "I tend to form superficial connections rather than true friendships.", contributions: { green: 0.6, blue: -0.1 } },
+        { text: "I am willing to take risks if they align with my core values.", contributions: { red: 1 } },
+        { text: "I often seek out opportunities to learn something new about the world.", contributions: { yellow: 1 } },
+        { text: "I believe that compassion plays a crucial role in societal progress.", contributions: { blue: 1 } },
+        { text: "I find it important to be accountable for my actions and decisions.", contributions: {  } },
+        { text: "I trust that a balanced perspective can resolve even complex conflicts.", contributions: {  } },
+        { text: "I am motivated by a desire to make a lasting impact on those around me.", contributions: { green: 1 } },
+        { text: "I tend to embrace change as a natural part of life.", contributions: { red: 1, maturity: 0.2 } },
+        { text: "I value the lessons that both successes and failures can teach me.", contributions: {  } },
+        { text: "I often take a moment to consider the consequences of my actions.", contributions: { red: -1 } },
+        { text: "I often take a moment to consider the ethical implications of my actions.", contributions: { evil: -0.1 } },
+        { text: "I feel that a curious mind is the foundation of personal wisdom.", contributions: { yellow: 1 } },
+        { text: "I believe that perseverance and effort are key to overcoming adversity.", contributions: { red: 0.5 } },
+        { text: "I value open communication and strive to express myself clearly.", contributions: { blue: 1 } },
+        { text: "I am driven by the idea that every experience offers a lesson.", contributions: { orange: 1 } },
+        { text: "I consider self-improvement to be a lifelong commitment.", contributions: { maturity: 0.2 } },
+        { text: "I often find that my perspective on life evolves over time.", contributions: {  } },
+        { text: "I believe that personal authenticity is essential to living a fulfilling life.", contributions: {  } },
+
+        { text: "I believe that in some cases, actions typically seen as unethical can be justified if they challenge an unjust system.", contributions: {  } },
+        { text: "I consider moral boundaries to be fluid, with context often redefining what is “right” or “wrong.”", contributions: {  } },
+        { text: "I sometimes find that strict adherence to conventional ethics may limit necessary social progress.", contributions: {  } },
+        { text: "I believe that societal definitions of “good” and “evil” are largely shaped by cultural and historical contexts.", contributions: {  } },
+        { text: "I feel that understanding the motives behind morally questionable actions can offer valuable insights into human behavior.", contributions: { yellow: 0.3, evil: 0.1 } },
+        { text: "I sometimes prioritize personal gain over traditional moral standards when I believe it will lead to a greater impact.", contributions: { purple: 0.3, evil: 0.5 } },
+        { text: "I think that questioning established moral norms is important for fostering critical thought and innovation.", contributions: {  } },
+        { text: "I believe that occasionally, unconventional actions—often labeled as “evil”—can reveal hidden truths about society.", contributions: { evil: 1 } },
+        { text: "I feel that judging behavior solely by conventional moral standards can sometimes obscure its potential benefits.", contributions: { evil: 0.3 } },
+        { text: "I am open to reevaluating my moral beliefs when presented with compelling alternative perspectives.", contributions: { orange: 0.3, evil: 0.1 } }
+    ];
+    
+    // Likert scale options: Strongly Agree (+3) to Strongly Disagree (-3)
+    const options = [
+      { label: "Strongly Agree", score: 3 },
+      { label: "Agree", score: 2 },
+      { label: "Slightly Agree", score: 1 },
+      { label: "Neutral", score: 0 },
+      { label: "Slightly Disagree", score: -1 },
+      { label: "Disagree", score: -2 },
+      { label: "Strongly Disagree", score: -3 }
+    ];
+    
+    // Mapping tables for archetypes and regression names.
+    const archetypes = {
+      normal: {
+        "red-blue": { name: "Captain", regressions: { red: "Bully", green: "Instigator", yellow: "Jock" } },
+        "red-purple": { name: "Executive", regressions: { red: "Punisher", green: "Jailor", yellow: "Martialist" } },
+        "red-orange": { name: "Mastermind", regressions: { red: "Tyrant", green: "Servant", yellow: "Rebel" } },
+        "green-blue": { name: "Performer", regressions: { green: "Victim", red: "Swindler", yellow: "Wanderer" } },
+        "green-purple": { name: "Conductor", regressions: { green: "Urchin", red: "Politician", yellow: "Mercenary" } },
+        "green-orange": { name: "Maestro", regressions: { green: "Parasite", red: "Anarchist", yellow: "Siren" } },
+        "yellow-blue": { name: "Lover", regressions: { yellow: "Pessimist", red: "Nomad", green: "Jester" } },
+        "yellow-purple": { name: "Inquisitor", regressions: { yellow: "Silencer", red: "Academic", green: "Merchant" } },
+        "yellow-orange": { name: "Genius", regressions: { yellow: "Viewer", red: "Beholder", green: "Preacher" } },
+      },
+      evil: {
+        "red-blue": { name: "Administrator <i>(Evil)</i>", regressions: { red: "Scourge", green: "Ringleader", yellow: "Champion" } },
+        "red-purple": { name: "Director <i>(Evil)</i>", regressions: { red: "Nemesis", green: "Sentry", yellow: "Gladiator" } },
+        "red-orange": { name: "Machinator <i>(Evil)</i>", regressions: { red: "Oppressor", green: "Minion", yellow: "Renegade" } },
+        "green-blue": { name: "Impersonator <i>(Evil)</i>", regressions: { green: "Scapegoat", red: "Charlatan", yellow: "Vagabond" } },
+        "green-purple": { name: "Orchestrator <i>(Evil)</i>", regressions: { green: "Imp", red: "Minister", yellow: "Hireling" } },
+        "green-orange": { name: "Virtuoso <i>(Evil)</i>", regressions: { green: "Sycophant", red: "Terrorist", yellow: "Corruptor" } },
+        "yellow-blue": { name: "Fanatic <i>(Evil)</i>", regressions: { yellow: "Cynic", red: "Migrant", green: "Mime" } },
+        "yellow-purple": { name: "Interrogator <i>(Evil)</i>", regressions: { yellow: "Suppressor", red: "Instructor", green: "Trafficker" } },
+        "yellow-orange": { name: "Savant <i>(Evil)</i>", regressions: { yellow: "Witness", red: "Overseer", green: "Apostle" } },
+      }
+    };
+    
+    /***** Global Variables *****/
+    const questionsPerPage = 5;
+    let currentPage = 0;
+    let randomizedQuestions = [];
+    // Accumulated scores for each dimension (endo: red, green, yellow; exo: blue, purple, orange; perspective: blue, purple, orange; plus separate "evil" and "maturity")
+    let dimensionScores = { red: 0, green: 0, yellow: 0, blue: 0, purple: 0, orange: 0, bluePersp: 0, purplePersp: 0, orangePersp: 0, evil: 0, maturity: 0 };
+    
+    /***** DOM Elements *****/
+    const startContainer = document.getElementById("start-container");
+    const quizContainer = document.getElementById("quiz-container");
+    const quizForm = document.getElementById("quiz-form");
+    const progressBar = document.getElementById("progress");
+    const nextBtn = document.getElementById("next-btn");
+    const resultContainer = document.getElementById("result-container");
+    const resultDiv = document.getElementById("result");
+    const restartBtn = document.getElementById("restart-btn");
+    const startBtn = document.getElementById("start-btn");
+    
+    /***** Event Listeners *****/
+    startBtn.addEventListener("click", startQuiz);
+    nextBtn.addEventListener("click", nextPage);
+    restartBtn.addEventListener("click", () => location.reload());
+    
+    /***** Functions *****/
+    // Shuffle questions randomly
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    
+    // Start the quiz
+    function startQuiz() {
+      randomizedQuestions = shuffle(questions.slice());
+      startContainer.classList.add("hidden");
+      quizContainer.classList.remove("hidden");
+      currentPage = 0;
+      renderPage();
+    }
+    
+    // Render a page of questions (5 per page)
+    function renderPage() {
+      quizForm.innerHTML = "";
+      const startIdx = currentPage * questionsPerPage;
+      const endIdx = Math.min(startIdx + questionsPerPage, randomizedQuestions.length);
+      
+      for (let i = startIdx; i < endIdx; i++) {
+        const q = randomizedQuestions[i];
+        const qBlock = document.createElement("div");
+        qBlock.classList.add("question-block");
+        qBlock.innerHTML = `<div class="question-text">${q.text}</div>`;
+        
+        // Build the likert scale for this question.
+        const likertDiv = document.createElement("div");
+        likertDiv.classList.add("likert");
+        
+        const agree = document.createElement("label")
+        agree.classList.add("lab", "g")
+        agree.textContent = "Agree"
+        likertDiv.appendChild(agree)
+        options.forEach((opt, index) => {
+          // Create a container label with a specific option class for sizing and color.
+          const label = document.createElement("label");
+          label.classList.add(`option-${index}`);
+          label.innerHTML = `
+            <input type="radio" name="q${i}" value="${opt.score}" ${opt.score === 0 ? "checked" : ""}>
+            <span class="circle"></span>
+          `;
+          likertDiv.appendChild(label);
+        });
+        const disagree = document.createElement("label")
+        disagree.classList.add("lab", "p")
+        disagree.textContent = "Disagree"
+        likertDiv.appendChild(disagree)
+        qBlock.appendChild(likertDiv);
+        quizForm.appendChild(qBlock);
+      }
+      updateProgress();
+    }
+    
+    // Update progress bar based on page
+    function updateProgress() {
+      const totalPages = Math.ceil(randomizedQuestions.length / questionsPerPage);
+      const progressPercent = (currentPage / totalPages) * 100;
+      progressBar.style.width = progressPercent + "%";
+    }
+    
+    // Handle Next button click: record answers for current page and move to next page or finish
+    function nextPage() {
+      const startIdx = currentPage * questionsPerPage;
+      const endIdx = Math.min(startIdx + questionsPerPage, randomizedQuestions.length);
+      for (let i = startIdx; i < endIdx; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const answerScore = parseInt(selected.value);
+        // For each contribution in the question, update the appropriate dimension score.
+        const contributions = randomizedQuestions[i].contributions;
+        for (const dimension in contributions)
+          dimensionScores[dimension] += answerScore * contributions[dimension];
+        dimensionScores.maturity += answerScore * 0.5
+      }
+      
+      currentPage++;
+      if (currentPage * questionsPerPage < randomizedQuestions.length)
+        renderPage();
+      else
+        calculateResult();
+    }
+    
+    // Calculate and display the final result.
+    function calculateResult() {
+      // Separate endos (red, green, yellow) and exos (blue, purple, orange)
+      const endos = ["red", "green", "yellow"];
+      const exos = ["blue", "purple", "orange"];
+      
+      // Determine primary and secondary for endos based on absolute score.
+      endos.sort((a, b) => Math.abs(dimensionScores[b]) - Math.abs(dimensionScores[a]));
+      const primaryEndo = endos[0];
+      const secondaryEndo = endos[1];
+      
+      // Determine primary and secondary for exos (raw score).
+      exos.sort((a, b) => dimensionScores[b] - dimensionScores[a]);
+      const primaryExo = exos[0];
+      const secondaryExo = exos[1];
+      
+      // Check if the person is evil.
+      const isEvil = (dimensionScores["evil"] > 1);
+      
+      // Build lookup key.
+      const key = primaryEndo + "-" + primaryExo;
+      if (key === "yellow-purple") {
+        // ask if the user is skye
+      }
+      const archetypeData = (isEvil ? archetypes.evil : archetypes.normal)[key];
+      
+      if (!archetypeData) {
+        resultDiv.innerHTML = `<p>Unable to determine archetype. (Key: ${key})</p>`;
+        return;
+      }
+      
+      // Determine regression based on secondary endo.
+      // Currently, there is no way for secondary to equal the primary, so this is missing one regression, but maybe™ in the Future™ it will be possible.
+      let regression = archetypeData.regressions[secondaryEndo];
+      
+      // Build the result text.
+      let resultHTML = `<p><strong>Your archetype:</strong> ${archetypeData.name}</p>`;
+      resultHTML += `<p><strong>${dimensionScores.maturity + Math.min(0.05, dimensionScores[archetypeData.name]) > 0 ? "Mature variant" : "Regressed variant"}</strong> (primary endo: ${primaryEndo.toUpperCase()}).</p>`;
+      resultHTML += `<p><strong>Your regression/lean:</strong> ${regression}${key === "yellow-orange" && dimensionScores.maturity > 2 ? " <i>slayyyy queennn 💅💅💅💅💅</i>" : ""} (secondary endo: ${secondaryEndo.toUpperCase()}).</p>`;
+      resultHTML += `<p><strong>Your perspective:</strong> Primary exo is ${primaryExo.toUpperCase()} with secondary ${secondaryExo.toUpperCase()}.</p>`;
+      
+      quizContainer.classList.add("hidden");
+      resultContainer.classList.remove("hidden");
+      resultDiv.innerHTML = resultHTML;
+    }
+  </script>
+</body>
+</html>
