@@ -77,6 +77,7 @@ a:hover::after {
 }
 
 .quote {
+  font-family: 'papyrus', 'Papyrus', 'Garamond', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(255, 239, 222);
   text-align: center;
 }
