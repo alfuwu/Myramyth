@@ -179,7 +179,7 @@ ol.nav > hr {
   color: #fff;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 650px), (orientation: portrait) {
   ol.nav {
     overflow-x: auto;
     overflow-y: hidden;
