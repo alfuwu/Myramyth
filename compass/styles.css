@@ -90,7 +90,7 @@ a:hover::after {
 
 .page-wrapper {
   max-width: 1084px;
-  overflow-x:visible auto;
+  overflow-x: auto;
   margin: auto;
 }
 .page-viewport {
