@@ -9,6 +9,8 @@ body {
   padding: 0;
   background: rgb(24,24,24);
   color: #eee;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
 }
 
 ::-webkit-scrollbar {
@@ -74,9 +76,12 @@ a:hover::after {
   max-height: 100vh;
   position: relative;
   left: 25%;
+  animation: float 3s ease-in-out infinite;
+  border-radius: 5px;
 }
 
 .quote {
+  font-family: 'papyrus', 'Papyrus', 'Garamond', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(255, 239, 222);
   text-align: center;
 }
@@ -87,10 +92,13 @@ a:hover::after {
   gap: 10px;
   padding: 10px;
 }
+.grid ul {
+  font-size: 0.9rem;
+}
 
 .page-wrapper {
   max-width: 1084px;
-  overflow-x:visible auto;
+  overflow-x: hidden;
   margin: auto;
 }
 .page-viewport {
@@ -119,12 +127,16 @@ h1, h2, h3 {
   min-height: 100vh;
   /*filter: drop-shadow(0 0 1em #000);*/
   scroll-margin-top: 4rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 .page-viewport > *:last-child {
     margin: 20px 0;
 }
 .page-viewport > li > div {
   scroll-margin-top: 4rem;
+}
+#roots {
+  background: linear-gradient(rgb(44, 44, 44) 17%, rgb(47, 37, 37) 20%, rgb(47, 37, 37) 27%, rgb(37, 47, 37) 30%, rgb(37, 47, 37) 37%, rgb(42, 45, 37) 40%, rgb(42, 45, 37) 50%, rgb(44, 44, 44) 53%, rgb(44, 44, 44) 62%, rgb(37, 37, 47) 65%, rgb(37, 37, 47) 74%, rgb(42, 37, 45) 77%, rgb(42, 37, 45) 85%, rgb(47, 42, 37) 88%, rgb(47, 42, 37) 98%, rgb(44, 44, 44));
 }
 
 ol.nav {
@@ -179,7 +191,68 @@ ol.nav > hr {
   color: #fff;
 }
 
-@media only screen and (max-width: 650px) {
+#archetypes h2, #pressures h2 {
+  position: relative;
+}
+#archetypes h2::before, #pressures h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(10px);
+  border-radius: 10px;
+}
+#captain::before {
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.07), rgba(0, 0, 255, 0.05));
+}
+#executive::before {
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.07), rgba(174, 0, 255, 0.05));
+}
+#mastermind::before {
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.07), rgba(255, 128, 0, 0.07));
+}
+#performer::before {
+  background: linear-gradient(to right, rgba(0, 255, 30, 0.07), rgba(0, 0, 255, 0.05));
+}
+#conductor::before {
+  background: linear-gradient(to right, rgba(0, 255, 30, 0.07), rgba(174, 0, 255, 0.05));
+}
+#maestro::before {
+  background: linear-gradient(to right, rgba(0, 255, 30, 0.07), rgba(255, 128, 0, 0.07));
+}
+#lover::before {
+  background: linear-gradient(to right, rgba(255, 255, 0, 0.07), rgba(0, 0, 255, 0.05));
+}
+#inquisitor::before {
+  background: linear-gradient(to right, rgba(255, 255, 0, 0.07), rgba(174, 0, 255, 0.05));
+}
+#genius::before {
+  background: linear-gradient(to right, rgba(255, 255, 0, 0.07), rgba(255, 128, 0, 0.07));
+}
+#executional-pressure::before {
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.07), rgba(174, 0, 255, 0.05));
+}
+#social-pressure::before {
+  background: linear-gradient(to right, rgba(0, 255, 30, 0.07), rgba(0, 0, 255, 0.05));
+}
+#mental-pressure::before {
+  background: linear-gradient(to right, rgba(255, 255, 0, 0.07), rgba(255, 128, 0, 0.07));
+}
+
+/*@media only screen and (max-width:799px) {
+  html {
+    font-size: 16px;
+  }
+  h1, h2 {
+    font-size: 2.25rem
+  }
+  h3, h4, h5, h6, h7 {
+    font-size: 1.125rem
+  }
+}*/
+
+@media only screen and (max-width: 650px), (orientation: portrait) {
   ol.nav {
     overflow-x: auto;
     overflow-y: hidden;
@@ -211,8 +284,36 @@ ol.nav > hr {
   }
 }
 
+/*@media only screen and (max-width:450px){
+  h1, h2 {
+    font-size: 8vw
+  }
+  h3, h4, h5, h6, h7 {
+    font-size: 4vw
+  }
+}
+@media only screen and (max-width:400px){
+  h1, h2 {
+    font-size: 32px
+  }
+  h3, h4, h5, h6, h7 {
+    font-size: 16px
+  }
+}*/
+
 @font-face{
   font-family:'papyrus';
   src: url('https://alfuwu.github.io/Images/papyrus.woff') format('woff'),
     url('https://alfuwu.github.io/Images/papyrus.ttf') format('truetype');
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-1px); }
+  100% { transform: translateY(0px); }
 }
