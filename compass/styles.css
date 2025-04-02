@@ -287,10 +287,6 @@ ol.nav > hr {
   .page-viewport > li {
     padding: 10px 10px;
   }
-
-  #font-button {
-    display: none; /* idk how to display it on mobile w/o it getting in the way of reading */
-  }
 }
 
 /*@media only screen and (max-width:450px){
