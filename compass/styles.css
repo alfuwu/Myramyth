@@ -13,6 +13,10 @@ body {
   animation: fadeIn 1s ease-in-out forwards;
 }
 
+:root {
+  --link-font: 'papyrus', 'Papyrus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -32,7 +36,8 @@ body {
 }
 
 a {
-  font-family: 'papyrus', 'Papyrus', 'Garamond', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'papyrus', 'Papyrus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--link-font);
   position: relative;
   text-decoration: none;
   color: #eee;
@@ -81,7 +86,7 @@ a:hover::after {
 }
 
 .quote {
-  font-family: 'papyrus', 'Papyrus', 'Garamond', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'papyrus', 'Papyrus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(255, 239, 222);
   text-align: center;
 }
@@ -113,7 +118,7 @@ a:hover::after {
   margin-left: 124px;
 }
 h1, h2, h3, h4 {
-  font-family: 'papyrus', 'Papyrus', 'Garamond', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'papyrus', 'Papyrus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 h1, h2, h3 {
   text-align: center;
@@ -141,7 +146,7 @@ h1, h2, h3 {
 
 ol.nav {
   flex: 0 0 140px;
-  font-family: 'papyrus', 'Papyrus', 'Garamond', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'papyrus', 'Papyrus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   list-style: none;
   margin: 25px -15px 5px 5px;
@@ -281,6 +286,10 @@ ol.nav > hr {
 
   .page-viewport > li {
     padding: 10px 10px;
+  }
+
+  #font-button {
+    display: none; /* idk how to display it on mobile w/o it getting in the way of reading */
   }
 }
 

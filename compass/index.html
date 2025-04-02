@@ -78,7 +78,7 @@ Disclaimer: Some information contained within this document is speculative and/o
             <h2 id="practitioner">PURPLE <img src="https://cdn.discordapp.com/emojis/1310831084057001994.webp?size=240" class="emoji" /></h2>
             <h3>PRACTITIONER <img src="https://cdn.discordapp.com/emojis/1354701803454861363.webp?size=240" class="emoji" /> <span class="hq"><i>— “The Answer”</i></span></h3>
             <p><b>Proverb</b>: The Job*</p>
-            <p>The <b><a href="#practitioner" data-text="Practitioner">Practitioner</a></b> is a skeleton key, taking practical measures with fluid execution. They rarely steer from the path they have decided, and offer judgment to those who oppose. <b><a href="#practitioner" data-text="Practitioners">Practitioners</a></b> are generally the most responsible out of any root, though their nature puts them at odds with <b><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-text="Tricksters" target="_blank">Tricksters</a></b> by default.</p>
+            <p>The <b><a href="#practitioner" data-text="Practitioner">Practitioner</a></b> is a skeleton key, taking practical measures with fluid execution. They rarely steer from the path they have decided, and offer judgment to those who oppose. <b><a href="#practitioner" data-text="Practitioners">Practitioners</a></b> are generally the most responsible out of any root, though their nature can sometimes put them at odds with <b><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-text="Tricksters" target="_blank">Tricksters</a></b>.</p>
             <p class="quote"><i>“purple parent theory”</i></p>
             <p><b>Practical</b> when mature.<br><b>Judgmental</b> when immature.</p>
             <h2 id="construct">ORANGE <img src="https://cdn.discordapp.com/emojis/1310830754187710525.webp?size=240" class="emoji" /></h2>
@@ -344,5 +344,25 @@ Disclaimer: Some information contained within this document is speculative and/o
     </li>
     </ol>
     </div>
+ 
+    <script>
+        const link = document.getElementsByTagName("a");
+        const button = document.getElementById("font-button");
+        const FONT_A = "'papyrus', 'Papyrus', ";
+        const FONT_B = "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif";
+
+        function toggleFont() {
+            const currentFont = getComputedStyle(document.documentElement).getPropertyValue('--link-font').trim();
+            const newFont = currentFont[1] === 'p' ? FONT_B : FONT_A + FONT_B;
+            document.documentElement.style.setProperty('--link-font', newFont);
+            localStorage.setItem("fontFamily", newFont);
+        }
+
+        document.body.addEventListener("keyup", event => { if (event.key === "f") toggleFont() });
+
+        const savedFont = localStorage.getItem("fontFamily");
+        if (savedFont)
+            document.documentElement.style.setProperty('--link-font', savedFont);
+    </script>
 </body>
 </html>
