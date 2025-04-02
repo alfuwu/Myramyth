@@ -231,7 +231,7 @@
         { text: "I am confident in my ability to overcome unexpected obstacles.", contributions: { red: 0.6, purple: -0.05 } },
         { text: "I often make jokes when under duress.", contributions: { green: 1 } },
         { text: "I prefer to work collaboratively rather than independently.", contributions: { green: 0.5, blue: 0.5, red: 0.1, purple: 0.1 } },
-        { text: "I believe that moral integrity is more important than personal gain.", contributions: { evil: -0.5 } },
+        { text: "I believe that moral integrity is more important than personal gain.", contributions: { } },
         { text: "I will change my opinion when presented with new evidence that suggests a conclusion contradictory to my previous opinion.", contributions: { maturity: 0.3 } },
         { text: "I often prioritize long-term benefits over short-term rewards.", contributions: { purple: 0.5, red: -0.5 } },
         { text: "I feel responsible for contributing positively to my community.", contributions: { purple: 0.6, blue: 0.4 } },
@@ -245,10 +245,10 @@
         { text: "I appreciate the importance of tradition and stability in my life.", contributions: { red: -0.2 } },
         { text: "I feel that empathy is crucial when understanding others’ experiences.", contributions: { blue: 0.3, orange: -0.3 } },
         { text: "I am enthusiastic about exploring new opportunities, even if they are uncertain.", contributions: { yellow: 1 } },
-        { text: "I often find that my actions are guided by a strong internal moral compass.", contributions: { evil: -0.2 } },
+        { text: "I often find that my actions are guided by a strong internal moral compass.", contributions: { } },
         { text: "I believe that adapting to change is a key part of personal success.", contributions: { green: 0.3, purple: 0.2 } },
         { text: "I tend to set high standards for myself in every area of my life.", contributions: { red: 0.5, purple: 0.5 } },
-        { text: "I value honesty even when the truth might be difficult to share and/or detriment myself.", contributions: { blue: 0.6, evil: -0.2 } },
+        { text: "I value honesty even when the truth might be difficult to share and/or detriment myself.", contributions: { blue: 0.6 } },
         { text: "I enjoy engaging in thoughtful discussions about life’s bigger questions.", contributions: { yellow: 1, orange: 1 } },
         { text: "I am persistent in pursuing my goals, even in the face of setbacks.", contributions: { red: 1, orange: 0.4 } },
         { text: "I believe that self-discipline is fundamental to achieving personal ambitions.", contributions: {  } },
@@ -260,16 +260,18 @@
         { text: "I believe that compassion plays a crucial role in societal progress.", contributions: { blue: 1 } },
         { text: "I find it important to be accountable for my actions and decisions.", contributions: {  } },
         { text: "I trust that a balanced perspective can resolve even complex conflicts.", contributions: {  } },
-        { text: "I am motivated by a desire to make a lasting impact on those around me.", contributions: { green: 1 } },
+        { text: "I am motivated by a desire to make a lasting impact on those around me.", contributions: { green: 0.4 } },
         { text: "I tend to embrace change as a natural part of life.", contributions: { red: 1, maturity: 0.2 } },
         { text: "I value the lessons that both successes and failures can teach me.", contributions: {  } },
         { text: "I often take a moment to consider the consequences of my actions.", contributions: { red: -1 } },
-        { text: "I often take a moment to consider the ethical implications of my actions.", contributions: { evil: -0.1 } },
+        { text: "I often take a moment to consider the ethical implications of my actions.", contributions: { } },
         { text: "I feel that a curious mind is the foundation of personal wisdom.", contributions: { yellow: 1 } },
         { text: "I believe that perseverance and effort are key to overcoming adversity.", contributions: { red: 0.5 } },
         { text: "I value open communication and strive to express myself clearly.", contributions: { blue: 1 } },
         { text: "I am driven by the idea that every experience offers a lesson.", contributions: { orange: 1 } },
         { text: "I consider self-improvement to be a lifelong commitment.", contributions: { maturity: 0.2 } },
+        { text: "I prefer questions with logical answers .", contributions: { maturity: 0.2 } },
+        { text: "I would consider myself good at math.", contributions: { maturity: 0.2 } },
         { text: "I often find that my perspective on life evolves over time.", contributions: {  } },
         { text: "I believe that personal authenticity is essential to living a fulfilling life.", contributions: {  } },
 
@@ -277,12 +279,12 @@
         { text: "I consider moral boundaries to be fluid, with context often redefining what is “right” or “wrong.”", contributions: {  } },
         { text: "I sometimes find that strict adherence to conventional ethics may limit necessary social progress.", contributions: {  } },
         { text: "I believe that societal definitions of “good” and “evil” are largely shaped by cultural and historical contexts.", contributions: {  } },
-        { text: "I feel that understanding the motives behind morally questionable actions can offer valuable insights into human behavior.", contributions: { yellow: 0.3, evil: 0.1 } },
-        { text: "I sometimes prioritize personal gain over traditional moral standards when I believe it will lead to a greater impact.", contributions: { purple: 0.3, evil: 0.5 } },
+        { text: "I feel that understanding the motives behind morally questionable actions can offer valuable insights into human behavior.", contributions: { yellow: 0.3 } },
+        { text: "I sometimes prioritize personal gain over traditional moral standards when I believe it will lead to a greater impact.", contributions: { purple: 0.3 } },
         { text: "I think that questioning established moral norms is important for fostering critical thought and innovation.", contributions: {  } },
-        { text: "I believe that occasionally, unconventional actions—often labeled as “evil”—can reveal hidden truths about society.", contributions: { evil: 1 } },
-        { text: "I feel that judging behavior solely by conventional moral standards can sometimes obscure its potential benefits.", contributions: { evil: 0.3 } },
-        { text: "I am open to reevaluating my moral beliefs when presented with compelling alternative perspectives.", contributions: { orange: 0.3, evil: 0.1 } }
+        { text: "I believe that occasionally, unconventional actions—often labeled as “evil”—can reveal hidden truths about society.", contributions: { } },
+        { text: "I feel that judging behavior solely by conventional moral standards can sometimes obscure its potential benefits.", contributions: { } },
+        { text: "I am open to reevaluating my moral beliefs when presented with compelling alternative perspectives.", contributions: { orange: 0.3 } }
     ];
     
     // Likert scale options: Strongly Agree (+3) to Strongly Disagree (-3)
@@ -298,7 +300,6 @@
     
     // Mapping tables for archetypes and regression names.
     const archetypes = {
-      normal: {
         "red-blue": { name: "Captain", regressions: { red: "Bully", green: "Instigator", yellow: "Jock" } },
         "red-purple": { name: "Executive", regressions: { red: "Punisher", green: "Jailor", yellow: "Martialist" } },
         "red-orange": { name: "Mastermind", regressions: { red: "Tyrant", green: "Servant", yellow: "Rebel" } },
@@ -308,26 +309,14 @@
         "yellow-blue": { name: "Lover", regressions: { yellow: "Pessimist", red: "Nomad", green: "Jester" } },
         "yellow-purple": { name: "Inquisitor", regressions: { yellow: "Silencer", red: "Academic", green: "Merchant" } },
         "yellow-orange": { name: "Genius", regressions: { yellow: "Viewer", red: "Beholder", green: "Preacher" } },
-      },
-      evil: {
-        "red-blue": { name: "Administrator <i>(Evil)</i>", regressions: { red: "Scourge", green: "Ringleader", yellow: "Champion" } },
-        "red-purple": { name: "Director <i>(Evil)</i>", regressions: { red: "Nemesis", green: "Sentry", yellow: "Gladiator" } },
-        "red-orange": { name: "Machinator <i>(Evil)</i>", regressions: { red: "Oppressor", green: "Minion", yellow: "Renegade" } },
-        "green-blue": { name: "Impersonator <i>(Evil)</i>", regressions: { green: "Scapegoat", red: "Charlatan", yellow: "Vagabond" } },
-        "green-purple": { name: "Orchestrator <i>(Evil)</i>", regressions: { green: "Imp", red: "Minister", yellow: "Hireling" } },
-        "green-orange": { name: "Virtuoso <i>(Evil)</i>", regressions: { green: "Sycophant", red: "Terrorist", yellow: "Corruptor" } },
-        "yellow-blue": { name: "Fanatic <i>(Evil)</i>", regressions: { yellow: "Cynic", red: "Migrant", green: "Mime" } },
-        "yellow-purple": { name: "Interrogator <i>(Evil)</i>", regressions: { yellow: "Suppressor", red: "Instructor", green: "Trafficker" } },
-        "yellow-orange": { name: "Savant <i>(Evil)</i>", regressions: { yellow: "Witness", red: "Overseer", green: "Apostle" } },
-      }
-    };
+      };
     
     /***** Global Variables *****/
     const questionsPerPage = 5;
     let currentPage = 0;
     let randomizedQuestions = [];
-    // Accumulated scores for each dimension (endo: red, green, yellow; exo: blue, purple, orange; perspective: blue, purple, orange; plus separate "evil" and "maturity")
-    let dimensionScores = { red: 0, green: 0, yellow: 0, blue: 0, purple: 0, orange: 0, bluePersp: 0, purplePersp: 0, orangePersp: 0, evil: 0, maturity: 0 };
+    // Accumulated scores for each dimension (endo: red, green, yellow; exo: blue, purple, orange; perspective: blue, purple, orange; plus separate "maturity")
+    let dimensionScores = { red: 0, green: 0, yellow: 0, blue: 0, purple: 0, orange: 0, bluePersp: 0, purplePersp: 0, orangePersp: 0, maturity: 0 };
     
     /***** DOM Elements *****/
     const startContainer = document.getElementById("start-container");
@@ -448,15 +437,12 @@
       const primaryExo = exos[0];
       const secondaryExo = exos[1];
       
-      // Check if the person is evil.
-      const isEvil = (dimensionScores["evil"] > 1);
-      
       // Build lookup key.
       const key = primaryEndo + "-" + primaryExo;
       if (key === "yellow-purple") {
         // ask if the user is skye
       }
-      const archetypeData = (isEvil ? archetypes.evil : archetypes.normal)[key];
+      const archetypeData = archetypes[key];
       
       if (!archetypeData) {
         resultDiv.innerHTML = `<p>Unable to determine archetype. (Key: ${key})</p>`;
