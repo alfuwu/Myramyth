@@ -63,9 +63,65 @@ a::after {
 a:hover::after {
   clip-path: inset(-100% -100% -100% -100%);
 }
+button {
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 15px;
+  color: #eee;
+  background: #888899;
+}
+button:hover {
+  background: #88aaff;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #111;
+  border: 2px solid rgba(255, 223, 186, 0.2);
+  border-radius: 3px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
+}
+input[type="checkbox"]:checked {
+  background-color: #222;
+  border-color: rgba(255, 223, 186, 0.5);
+}
+input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 9px;
+  border: solid #eee;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+input[type="checkbox"]:checked::after {
+  opacity: 1;
+}
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 3px rgba(255, 223, 186, 0.5);
+}
 
 .hq {
   font-size: 0.7em;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+}
+
+#settings-menu > div > * {
+  margin-left: 10px;
 }
 
 .emoji {
@@ -160,18 +216,15 @@ ol.nav {
   border-right: 3px solid rgba(255, 223, 186, 0.2);
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
-
 ol.nav > li {
   padding: 0 0.5rem;
   margin: 3px 7px;
   border-radius: 6px;
   transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out, color 200ms ease-in-out;
 }
-
 ol.nav > hr {
   margin: 7px 7px;
 }
-
 .nav a {
   display: block;
   text-align: center;
@@ -182,18 +235,39 @@ ol.nav > hr {
   border-radius: 6px;
   transition: color 200ms ease-in-out;
 }
-
 .nav a:hover {
   text-decoration: none;
   box-shadow: none;
   color: #fff;
 }
-
 .nav > li:hover {
   text-decoration: none;
   box-shadow: 0 0 10px rgba(255, 223, 186, 0.4);
   transform: scale(1.05);
   color: #fff;
+}
+.nav > li.ili {
+  transition: filter 200ms ease-in-out, transform 200ms ease-in-out, color 200ms ease-in-out;
+}
+.nav > li.ili:hover {
+  box-shadow: none;
+  filter: drop-shadow(0 0 2px rgba(255, 223, 186, 0.5)) drop-shadow(0 0 2px rgba(255, 223, 186, 0.4)) drop-shadow(0 0 2px rgba(255, 223, 186, 0.4)) drop-shadow(0 0 2px rgba(255, 223, 186, 0.4));
+  transform: scale(1.12);
+}
+.nav > li.ili > button {
+  width: 100%;
+}
+.nav button > img {
+  max-width: 30px;
+  vertical-align: middle;
+  padding: 10px 0;
+}
+.nav button,
+.nav button:hover {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
 
 #archetypes h2, #pressures h2 {
@@ -243,6 +317,46 @@ ol.nav > hr {
 }
 #mental-pressure::before {
   background: linear-gradient(to right, rgba(255, 255, 0, 0.07), rgba(255, 128, 0, 0.07));
+}
+
+#menus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: visible;
+}
+#f {
+  background: #000;
+  opacity: 0.5;
+  position: fixed;
+  left: -75px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 11;
+}
+.menu {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  width: fit-content;
+  justify-content: center;
+  flex-direction: column;
+  background: #141314;
+  opacity: 1;
+  border-radius: 5px;
+  z-index: 12;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 1);
+  padding: 30px 70px;
+  transform: translate(-50%, -50%);
+}
+
+.hidden {
+  display: none !important;
+}
+.h {
+  opacity: 0 !important;
 }
 
 /*@media only screen and (max-width:799px) {
