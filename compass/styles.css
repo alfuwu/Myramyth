@@ -211,7 +211,6 @@ h1, h2, h3 {
   line-height: 1.4;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
   text-align: center;
-  z-index: 999;
 }
 
 ol.nav {
@@ -414,6 +413,10 @@ ol.nav > hr {
 
   .page-viewport > li {
     padding: 10px 10px;
+  }
+
+  .disclaimer-box {
+    margin: 5em 2px 2px;
   }
 }
 
