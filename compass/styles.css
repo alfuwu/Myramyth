@@ -200,6 +200,20 @@ h1, h2, h3 {
   background: linear-gradient(rgb(44, 44, 44) 17%, rgb(47, 37, 37) 20%, rgb(47, 37, 37) 27%, rgb(37, 47, 37) 30%, rgb(37, 47, 37) 37%, rgb(42, 45, 37) 40%, rgb(42, 45, 37) 50%, rgb(44, 44, 44) 53%, rgb(44, 44, 44) 62%, rgb(37, 37, 47) 65%, rgb(37, 37, 47) 74%, rgb(42, 37, 45) 77%, rgb(42, 37, 45) 85%, rgb(47, 42, 37) 88%, rgb(47, 42, 37) 98%, rgb(44, 44, 44));
 }
 
+.disclaimer-box {
+  margin: 1em 5em 0;
+  border: 2px solid rgba(255, 0, 0, 0.7);
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 15px 20px;
+  color: #f8dada;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+  text-align: center;
+  z-index: 999;
+}
+
 ol.nav {
   flex: 0 0 140px;
   font-family: 'papyrus', 'Papyrus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
